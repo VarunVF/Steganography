@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdint>
 
 #include "Image.hpp"
 #include "parseOneInteger.hpp"
