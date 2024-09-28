@@ -4,9 +4,12 @@ A simple C++ project that demonstrates how to hide and retrieve secret messages 
 
 ## Features
 
-- Least Significant Bit (LSB) Steganography: Hide messages in the least significant bits of image pixels.
-- Image File Support: Works with PPM format.
-- Message Encoding and Decoding: Encode secret text messages into images and retrieve them with ease.
+- **Least Significant Bit (LSB) Steganography:**
+	Hide messages in the least significant bits of image pixels.
+- **Image File Support:**
+	Works with PPM and PNG formats.
+- **Message Encoding and Decoding:**
+	Encode secret text messages into images and retrieve them with ease.
 
 ## Prerequisites
 
@@ -30,29 +33,37 @@ The executable and intermediates are saved in `$(PlatformDir)bin\`.
 
 ## Usage
 
-Loading an image:
+Hiding a message using PNG format:
 ```cpp
-Image image;
-image.loadPPM("input.ppm");
+// Provide number of channels per pixel (4 = RGBA)
+Image image(4);
+image.loadPNG("input.png");
+
+// Message to be hidden
+std::string message = "secret";
+image.hideLSB(secret);
+
+// Required for PNG format:
+// Update the internal PNG buffer with the new data
+image.updatePNG();
+
+// Save the result with the encoded image
+image.savePNG("output.png");
 ```
 
-Saving an image:
+Recovering a message using PNG format:
 ```cpp
-image.savePPM("output.ppm");
+Image stegfile(4);
+stegfile.loadPNG("test/cpp_logo_output.png");
+
+// Provide the number of characters to look for (e.g. 6)
+std::string secret = stegfile.findLSB(6);
 ```
 
-Encoding a message:
+Similar functions are available for PPM images.
 ```cpp
-// Example using LSB Insertion
-std::string message = "top secret";
-image.hideLSB(message);
-```
-
-Decoding a message
-```cpp
-// Example using LSB Insertion
-int messageLength = 20;  // Number of chars to look for
-std::string result = image.findLSB(messageLength);
+loadPPM(filename);
+savePPM(filename);
 ```
 
 ## Future Features
