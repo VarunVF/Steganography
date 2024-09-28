@@ -8,6 +8,7 @@ class Image
 {
 public:
 	Image();
+	Image(int channelCount);
 	Image(int width, int height, int channelCount = 3, std::vector<uint8_t> pixelData = {});
 
 	// Hide a message in the image pixel data
@@ -16,7 +17,16 @@ public:
 
 	// Find a message from the image pixel data
 	// hidden using the least significant bit (LSB) of each color channel
-	std::string findLSB(int length);
+	std::string findLSB(size_t length);
+
+	// Write image data to a PNG file
+	int savePNG(const char* filename);
+
+	// Read image data from a PNG file
+	int loadPNG(const char* filename);
+
+	// Update the internal PNG data with that stored in the Image
+	int updatePNG();
 
 	// Write image data to a PPM file
 	int savePPM(const char* filename);

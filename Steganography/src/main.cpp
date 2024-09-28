@@ -6,14 +6,20 @@
 
 int main()
 {
-	Image image;
-	image.loadPPM("test/input.ppm");
+	Image image(4);			// 4 color channels per pixel
+	image.loadPNG("test/cpp_logo.png");
 
-	std::string message = "aabcd";
+	std::string message = "hello";
 	image.hideLSB(message);
-	image.savePPM("test/modified.ppm");
+	image.updatePNG();		// Required before calling savePNG()
+	image.savePNG("test/cpp_logo_output.png");
 
-	std::cout << image.findLSB(message.length()) << "\n";
+	// Now try getting the message back
+	Image stegfile(4);
+	stegfile.loadPNG("test/cpp_logo_output.png");
+	std::cout
+		<< "Attempt to recover secret:\n"
+		<< stegfile.findLSB(10) << "\n";
 
 	std::clog << "Done.\n";
 	return 0;
