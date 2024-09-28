@@ -8,7 +8,12 @@
 
 
 Image::Image()
-	: m_Width(0), m_Height(0), m_PixelData()
+	: m_Width(0), m_Height(0), m_ChannelCount(3), m_PixelData()
+{
+}
+
+Image::Image(int width, int height, int channelCount, std::vector<uint8_t> pixelData)
+	: m_Width(width), m_Height(height), m_ChannelCount(channelCount), m_PixelData(pixelData)
 {
 }
 
@@ -16,10 +21,10 @@ int Image::hideLSB(std::string& secret)
 {
 	// Check if the image is large enough to hide this message
 	size_t requiredSize = secret.length() * 8;
-	size_t requiredPixels = (size_t) std::ceil( (float)requiredSize / 3 );
+	size_t requiredPixels = (size_t) std::ceil( (float)requiredSize / m_ChannelCount );
 
 	size_t actualSize = m_PixelData.size();
-	size_t actualPixels = (size_t) std::ceil( (float)actualSize / 3 );
+	size_t actualPixels = (size_t) std::ceil( (float)actualSize / m_ChannelCount );
 
 	if (actualSize < requiredSize)
 	{
@@ -81,7 +86,7 @@ int Image::parseDimensions(std::string& text)
 
 int Image::parsePixelData(std::string& text)
 {
-	for (auto i = 0; i < 3 * m_Width * m_Height; i++)
+	for (auto i = 0; i < m_ChannelCount * m_Width * m_Height; i++)
 	{
 		// Number of pixels does not tally
 		if (text.length() == 0)
@@ -149,7 +154,7 @@ int Image::loadPPM(const char* filename)
 		return 1;
 
 	// Pre-allocate the expected size of the pixel data
-	m_PixelData.reserve( (size_t) 3 * m_Width * m_Height );
+	m_PixelData.reserve( (size_t) m_ChannelCount * m_Width * m_Height );
 	return 0;
 }
 

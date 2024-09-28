@@ -8,6 +8,7 @@ class Image
 {
 public:
 	Image();
+	Image(int width, int height, int channelCount = 3, std::vector<uint8_t> pixelData = {});
 
 	// Hide a message in the image pixel data
 	// using the least significant bit (LSB) of each color channel
@@ -39,6 +40,7 @@ private:
 private:
 	int m_Width;
 	int m_Height;
+	int m_ChannelCount;
 	// Assuming range of 0..255 (1 byte) for each of 3 color channels (RGB)
 	std::vector<uint8_t> m_PixelData;
 };
