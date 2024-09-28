@@ -11,6 +11,18 @@ A simple C++ project that demonstrates how to hide and retrieve secret messages 
 - **Message Encoding and Decoding:**
 	Encode secret text messages into images and retrieve them with ease.
 
+## Example
+
+Input PNG file:
+
+<img src="Steganography/test/cpp_logo.png" width=200>
+
+
+Output:
+
+<img src="Steganography/test/cpp_logo_output.png" width=200>
+
+
 ## Prerequisites
 
 - C++14 or later
@@ -54,7 +66,7 @@ image.savePNG("output.png");
 Recovering a message using PNG format:
 ```cpp
 Image stegfile(4);
-stegfile.loadPNG("test/cpp_logo_output.png");
+stegfile.loadPNG("hidden.png");
 
 // Provide the number of characters to look for (e.g. 6)
 std::string secret = stegfile.findLSB(6);
