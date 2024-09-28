@@ -50,7 +50,7 @@ int Image::hideLSB(std::string& secret)
 	return 0;
 }
 
-std::string Image::findLSB(int secretLength)
+std::string Image::findLSB(size_t secretLength)
 {
 	std::string secret;
 	secret.reserve(secretLength);
