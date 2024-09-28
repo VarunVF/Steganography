@@ -53,7 +53,7 @@ image.loadPNG("input.png");
 
 // Message to be hidden
 std::string message = "secret";
-image.hideLSB(secret);
+image.hideLSB(message);
 
 // Required for PNG format:
 // Update the internal PNG buffer with the new data
@@ -69,7 +69,7 @@ Image stegfile(4);
 stegfile.loadPNG("hidden.png");
 
 // Provide the number of characters to look for (e.g. 6)
-std::string secret = stegfile.findLSB(6);
+std::string message = stegfile.findLSB(6);
 ```
 
 Similar functions are available for PPM images.
