@@ -11,16 +11,15 @@ A simple C++ project that demonstrates how to hide and retrieve secret messages 
 - **Message Encoding and Decoding:**
 	Encode secret text messages into images and retrieve them with ease.
 
-## Example
 
-Input PNG file:
+## Illustration
 
-<img src="Steganography/test/cpp_logo.png" width=200>
+The image below compares a sample pair of original vs processed images and their pixel data.
+The string 'Hiding in plain sight' has been encoded into the image on the right.
 
+<img src="Steganography/resources/LSB_Steganography_Image_Comparison.png">
 
-Output:
-
-<img src="Steganography/test/cpp_logo_output.png" width=200>
+As can be seen, the original and processed images are visually indistinguishable.
 
 
 ## Prerequisites
@@ -72,13 +71,8 @@ stegfile.loadPNG("hidden.png");
 std::string message = stegfile.findLSB(6);
 ```
 
-Similar functions are available for PPM images.
+Similar methods are available for PPM images.
 ```cpp
-loadPPM(filename);
-savePPM(filename);
+image.loadPPM(filename);
+image.savePPM(filename);
 ```
-
-## Future Features
-
-- Support for more image formats.
-- Additional steganography techniques.
