@@ -38,7 +38,16 @@ git clone --recursive https://github.com/VarunVF/Steganography.git steganography
 cd steganography-cpp
 ```
 
-Compile the project:
+By default, for the dependencies `zlib` and `libpng`,
+this solution uses the pre-built x64 Windows binaries stored at
+`$(SolutionDir)Dependencies\libs`.
+
+Otherwise for other platforms, follow the installation instructions depending on your platform:
+- **Build zlib**: https://github.com/madler/zlib/blob/develop/README
+- **Build libpng**: https://github.com/pnggroup/libpng/blob/libpng16/INSTALL
+
+
+**Compile the project:**
 
 In Visual Studio, click on "Build" > "Build Solution".
 The executable and intermediates are saved in `$(SolutionDir)bin\` and `$(SolutionDir)bin\intermediates\` respectively.
