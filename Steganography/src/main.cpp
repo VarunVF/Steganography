@@ -20,7 +20,7 @@ int main()
 	stegfile.loadPNG("test/cpp_logo_output.png");
 	std::cout
 		<< "Attempt to recover secret:\n"
-		<< stegfile.findLSB(10) << "\n";
+		<< stegfile.findLSB(message.length()) << "\n";
 
 	std::clog << "Done.\n";
 	return 0;
