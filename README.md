@@ -2,6 +2,7 @@
 
 A simple C++ project that demonstrates how to hide and retrieve secret messages within images using steganography techniques.
 
+
 ## Features
 
 - **Least Significant Bit (LSB) Steganography:**
@@ -30,17 +31,18 @@ As can be seen, the original and processed images are visually indistinguishable
 
 ## Installation
 
-Clone the repository:
+Clone the repository with its submodules:
 
 ```bash
-git clone https://github.com/VarunVF/Steganography.git steganography-cpp
+git clone --recursive https://github.com/VarunVF/Steganography.git steganography-cpp
 cd steganography-cpp
 ```
 
 Compile the project:
 
 In Visual Studio, click on "Build" > "Build Solution".
-The executable and intermediates are saved in `$(PlatformDir)bin\`.
+The executable and intermediates are saved in `$(SolutionDir)bin\` and `$(SolutionDir)bin\intermediates\` respectively.
+
 
 ## Usage
 
