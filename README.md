@@ -39,7 +39,7 @@ cd steganography-cpp
 ```
 
 By default, for the dependencies `zlib` and `libpng`,
-this solution uses the pre-built x64 Windows binaries stored at
+this solution uses the pre-built x86 and x64 binaries for Windows, stored at
 `$(SolutionDir)Dependencies\libs`.
 
 Otherwise for other platforms, follow the installation instructions depending on your platform:
