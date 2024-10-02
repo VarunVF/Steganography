@@ -1,7 +1,10 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <cstdint>
+
+#include <png.h>
 
 
 class Image
@@ -24,9 +27,6 @@ public:
 
 	// Read image data from a PNG file
 	int loadPNG(const char* filename);
-
-	// Update the internal PNG data with that stored in the Image
-	int updatePNG();
 
 	// Write image data to a PPM file
 	int savePPM(const char* filename);
@@ -53,4 +53,5 @@ private:
 	int m_ChannelCount;
 	// Assuming range of 0..255 (1 byte) for each of 3 color channels (RGB)
 	std::vector<uint8_t> m_PixelData;
+	png_image m_PNG;
 };

@@ -65,10 +65,6 @@ image.loadPNG("input.png");
 std::string message = "secret";
 image.hideLSB(message);
 
-// Required for PNG format:
-// Update the internal PNG buffer with the new data
-image.updatePNG();
-
 // Save the result with the encoded image
 image.savePNG("output.png");
 ```
@@ -84,6 +80,19 @@ std::string message = stegfile.findLSB(6);
 
 Similar methods are available for PPM images.
 ```cpp
-image.loadPPM(filename);
-image.savePPM(filename);
+int Image::loadPPM(filename);
+int Image::savePPM(filename);
+```
+
+Other useful methods are available
+(See all methods in Image.hpp).
+```cpp
+// Get the width or height of an image
+int Image::width() const;
+
+// Get the height of the image
+int Image::height() const;
+
+// Get a reference to the image pixel data
+std::vector<uint8_t>& Image::getImageData();
 ```

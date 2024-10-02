@@ -10,23 +10,18 @@
 #include "parseOneInteger.hpp"
 
 
-// The control structure used by libpng
-static png_image image;
-static png_bytep buffer = NULL;
-
-
 Image::Image()
-	: m_Width(0), m_Height(0), m_ChannelCount(3), m_PixelData()
+	: m_Width(0), m_Height(0), m_ChannelCount(3), m_PixelData(), m_PNG()
 {
 }
 
 Image::Image(int channelCount)
-	: m_Width(0), m_Height(0), m_ChannelCount(channelCount), m_PixelData()
+	: m_Width(0), m_Height(0), m_ChannelCount(channelCount), m_PixelData(), m_PNG()
 {
 }
 
 Image::Image(int width, int height, int channelCount, std::vector<uint8_t> pixelData)
-	: m_Width(width), m_Height(height), m_ChannelCount(channelCount), m_PixelData(pixelData)
+	: m_Width(width), m_Height(height), m_ChannelCount(channelCount), m_PixelData(pixelData), m_PNG()
 {
 }
 
@@ -59,7 +54,6 @@ int Image::hideLSB(std::string& secret)
 		}
 	}
 
-	std::clog << "Secret hidden.\n";
 	return 0;
 }
 
@@ -104,73 +98,37 @@ int Image::loadPNG(const char* filename)
 	// https://github.com/pnggroup/libpng/blob/libpng16/example.c
 
 	// Initialise the png_image structure
-	memset(&image, 0, (sizeof image));
-	image.version = PNG_IMAGE_VERSION;
+	memset(&m_PNG, 0, (sizeof m_PNG));
+	m_PNG.version = PNG_IMAGE_VERSION;
 
-	if (png_image_begin_read_from_file(&image, filename))
+	if (png_image_begin_read_from_file(&m_PNG, filename))
 	{
 		// Set the format in which to read the PNG file
-		image.format = PNG_FORMAT_RGBA;
+		m_PNG.format = PNG_FORMAT_RGBA;
 
 		// Allocate memory to hold image in this format
-		buffer = (png_bytep)malloc(PNG_IMAGE_SIZE(image));
+		m_PixelData.reserve(PNG_IMAGE_SIZE(m_PNG));		// update capacity
+		m_PixelData.resize(PNG_IMAGE_SIZE(m_PNG));		// update size
 
-		if (buffer != NULL &&
-			png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0)
+		if (png_image_finish_read(&m_PNG, NULL, m_PixelData.data(), 0, NULL) != 0)
 		{
-			// Buffer is valid:
-			// Copy the image pixels into m_PixelData.
-
-			auto imageChannelCount = 4 * image.width * image.height;
-			for (unsigned int i = 0; i < imageChannelCount; i++)
-				m_PixelData.push_back(buffer[i]);
+			// Buffer is valid: initialise width, height members
+			m_Width = m_PNG.width;
+			m_Height = m_PNG.height;
 
 			return 0;
-		}
-		else
-		{
-			// In this case, if there wasn't enough memory for 'buffer',
-			// we didn't complete the read, so we must free the image:
-
-			if (buffer == NULL)
-				png_image_free(&image);
-			else
-				free(buffer);
 		}
 	}
 
 	// Something went wrong while reading the file.
 	// libpng stores a textual message in the 'png_image' structure:
-	std::cerr << "Error: " << image.message << "\n";
+	std::cerr << "Error: " << m_PNG.message << "\n";
 	return 1;
-}
-
-int Image::updatePNG()
-{
-	// Update the PNG buffer using m_PixelData
-
-	auto imageChannelCount = 4 * image.width * image.height;
-	if (m_PixelData.size() < imageChannelCount)
-	{
-		std::cerr
-			<< "updatePNG failed:\n"
-			<< "Size of pixel data and of PNG buffer do not match\n";
-		return 1;
-	}
-
-	for (unsigned int i = 0; i < imageChannelCount; i++)
-		buffer[i] = m_PixelData[i];
-	
-	return 0;
 }
 
 int Image::savePNG(const char* filename)
 {
-	// Check that the buffer is valid
-	if (buffer == NULL)
-		return 1;
-
-	if (png_image_write_to_file(&image, filename, 0, buffer, 0, NULL) == 0)
+	if (png_image_write_to_file(&m_PNG, filename, 0, m_PixelData.data(), 0, NULL) == 0)
 	{
 		// The buffer was not written successfully
 		return 1;
