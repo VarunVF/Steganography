@@ -179,13 +179,9 @@ int Image::savePPM(const char* filename)
 	if (m_Width == 0 || m_Height == 0)
 		return 0;
 
-	// Write RGB triplets
-	int row = 0;
-	for (const int& pixel : m_PixelData)
-	{
-		imageFile << pixel << " ";
-		++row;
-	}
+	// Write RGB triplets (widen char to int)
+	for (const int value : m_PixelData)
+		imageFile << value << " ";
 
 	return 0;
 }
