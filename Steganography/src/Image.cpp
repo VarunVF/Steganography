@@ -147,7 +147,7 @@ int Image::parseDimensions(std::string& text)
 
 int Image::parsePixelData(std::string& text)
 {
-	for (auto i = 0; i < m_ChannelCount * m_Width * m_Height; i++)
+	for (int i = 0; i < m_ChannelCount * m_Width * m_Height; i++)
 	{
 		// Number of pixels does not tally
 		if (text.length() == 0)
