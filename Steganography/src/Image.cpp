@@ -128,13 +128,13 @@ int Image::loadPNG(const char* filename)
 
 int Image::savePNG(const char* filename)
 {
-	if (png_image_write_to_file(&m_PNG, filename, 0, m_PixelData.data(), 0, NULL) == 0)
+	if (png_image_write_to_file(&m_PNG, filename, 0, m_PixelData.data(), 0, NULL) != 0)
 	{
-		// The buffer was not written successfully
-		return 1;
+		// The image has been written successfully
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 int Image::parseDimensions(std::string& text)
